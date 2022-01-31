@@ -75,7 +75,7 @@ const readAll = async (req: Request, res: Response, next: NextFunction) => {
 };
 const readOne = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const scooter = await Scooter.findById(req.params.id)
+    const scooter = await Scooter.find({ id: req.params.id });
     if (scooter == null) {
       return res.status(404).json({ message: 'Cannot find scooter' })
     } else {
@@ -85,13 +85,40 @@ const readOne = async (req: Request, res: Response, next: NextFunction) => {
     res.status(500).json({ message: err.message as String });
   }
 };
+const update = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const scooter: any = await Scooter.find({ id: req.params.id });
+    if (scooter == null) {
+      return res.status(404).json({ message: `Cannot find scooter ID ${req.params.id}` })
+    } else {
+      console.log(scooter[0]._id);
+      res.status(201).json(scooter)
+    }
+  } catch (err: any) {
+    res.status(500).json({ message: err.message as String });
+  }
+};
 
+const deleteOne = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    let scooter = await Scooter.findOne({ id: req.params.id });
+    console.log(scooter);
+    if (scooter == null) {
+      return res.status(404).json({ message: `Cannot find scooter ID ${req.params.id}` })
+    } else {
+      Scooter.deleteOne({ id: req.params.id });
+      res.status(201).json({ message: `Scooter ${req.params.id} ID was deleted` })
+    }
+  } catch (err: any) {
+    res.status(500).json({ message: err.message as String });
+  }
+};
 
 export default {
   create,
   readAll,
-  // update,
-  // deleteOne,
+  update,
+  deleteOne,
   readOne,
   allActive
 };

@@ -1,5 +1,15 @@
 GET http://localhost:5000/api/scooter
-
+// get all scooters
+###
+GET http://localhost:5000/api/scooter/125asd
+// get one scooter
+###
+DELETE http://localhost:5000/api/scooter/125asd
+// get one scooter
+###
+ PATCH http://localhost:5000/api/scooter/125asd
+// get one scooter
+https://www.youtube.com/watch?v=uXqIMjd57Ak
 ###
 GET http://localhost:5000/api/scooter/active
 
@@ -8,7 +18,7 @@ POST http://localhost:5000/api/scooter/create
 Content-Type: application/json
 
  {
-   "id" : "130asd",
+   "id" : "125asd",
  "model": "runner1",
  "location": {"lat":32.08136170392383, "lng":34.775386609946345},
  "year_manufacture": 2019,
