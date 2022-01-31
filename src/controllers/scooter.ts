@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import Scooter from '../models/scooter';
+import mongoose from "mongoose";
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
   let { id, location, model, year_manufacture, status } = req.body;
@@ -18,44 +19,6 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
     res.status(400).json({ message: err.message as String });
   }
 };
-
-// const update = async (req: Request, res: Response, next: NextFunction) => {
-//   let { id, location, model, year_manufacture, status } = req.body;
-//   const scooter = new Scooter({
-//     id,
-//     location,
-//     model,
-//     year_manufacture,
-//     status
-//   });
-
-//   try {
-//     const newScooter = await scooter.save();
-//     res.status(201).json(newScooter);
-//   } catch (err: any) {
-//     res.status(400).json({ message: err.message as String });
-//   }
-// };
-
-// router.patch('/:id', getSubscriber, async (req, res) => {
-//   if (req.body.name != null) {
-//     res.subscriber.name = req.body.name
-//   }
-//   if (req.body.subscribedToChannel != null) {
-//     res.subscriber.subscribedToChannel = req.body.subscribedToChannel
-//   }
-//   try {
-//     const updatedSubscriber = await res.subscriber.save()
-//     res.json(updatedSubscriber)
-//   } catch (err) {
-//     res.status(400).json({ message: err.message })
-//   }
-// })
-
-// const deleteOne = async (req: Request, res: Response, next: NextFunction) => {
-
-// };
-
 const allActive = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const scootersActive = await Scooter.find({ status: "active" });
@@ -68,11 +31,17 @@ const allActive = async (req: Request, res: Response, next: NextFunction) => {
 const readAll = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const scooters = await Scooter.find({});
-    res.status(201).json(scooters);
+    if (scooters == null) {
+      return res.status(404).json({ message: 'No scooters found' })
+    } else {
+      res.status(201).json(scooters);
+    }
+
   } catch (err: any) {
     res.status(400).json({ message: err.message as String });
   }
 };
+
 const readOne = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const scooter = await Scooter.find({ id: req.params.id });
@@ -87,12 +56,29 @@ const readOne = async (req: Request, res: Response, next: NextFunction) => {
 };
 const update = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const scooter: any = await Scooter.find({ id: req.params.id });
+    let scooter = await Scooter.findOne({ id: req.params.id });
     if (scooter == null) {
-      return res.status(404).json({ message: `Cannot find scooter ID ${req.params.id}` })
+      return res.status(404).json({ message: 'Cannot find scooter' })
     } else {
-      console.log(scooter[0]._id);
-      res.status(201).json(scooter)
+      let { status, location, model, year_manufacture } = req.body;
+      if (location != null) {
+        scooter.location = location;
+      }
+      if (model != null) {
+        scooter.model = model;
+      }
+      if (year_manufacture != null) {
+        scooter.year_manufacture = year_manufacture
+      }
+      if (status != null) {
+        scooter.status = status
+      }
+      try {
+        const newScooter = await scooter.save();
+        res.status(201).json(newScooter);
+      } catch (err: any) {
+        res.status(400).json({ message: err.message as String });
+      }
     }
   } catch (err: any) {
     res.status(500).json({ message: err.message as String });

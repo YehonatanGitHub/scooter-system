@@ -7,9 +7,15 @@ GET http://localhost:5000/api/scooter/125asd
 DELETE http://localhost:5000/api/scooter/125asd
 // get one scooter
 ###
- PATCH http://localhost:5000/api/scooter/125asd
-// get one scooter
-https://www.youtube.com/watch?v=uXqIMjd57Ak
+
+PATCH http://localhost:5000/api/scooter/125asd
+Content-Type: application/json
+
+ {
+ "model": "runner2",
+ "year_manufacture": 2022
+ }
+
 ###
 GET http://localhost:5000/api/scooter/active
 
