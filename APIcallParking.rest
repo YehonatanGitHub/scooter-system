@@ -1,0 +1,36 @@
+# get all parkings
+GET http://localhost:5000/api/parking
+###
+# get one parking (mongoDB id)
+GET http://localhost:5000/api/parking/61f986f47fe49b95a0097d81
+###
+# delete one parking (mongoDB id)
+DELETE http://localhost:5000/api/parking/61f996d6c0268ad6e319b598
+###
+
+# update parking (mongoDB id)
+PATCH http://localhost:5000/api/parking/61f986f47fe49b95a0097d81
+Content-Type: application/json
+
+{
+ "address" : "David Razi'el St 22, Tel Aviv-Yafo, 6802919",
+ "number_parking": "10"
+ }
+
+###
+
+# create new parking
+POST http://localhost:5000/api/parking/create
+Content-Type: application/json
+
+ {
+ "address" : "Neve Tzedek St 14, Tel Aviv-Yafo",
+ "number_parking": "12",
+  "location": {"lat":32.06278013996778, "lng":34.76532490466663}
+ }
+
+ 
+
+###
+
+

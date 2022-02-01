@@ -1,0 +1,33 @@
+# get all failures
+GET http://localhost:5000/api/failures
+###
+# get one failure (MongoDB ID)
+GET http://localhost:5000/api/failures/61f9a0b304b3d6af5cf6c37f
+###
+# delete one failures (MongoDB ID)
+DELETE http://localhost:5000/api/failures/61f9a0b304b3d6af5cf6c37f
+###
+
+# update failures (MongoDB ID)
+PATCH http://localhost:5000/api/failures/61f9a0b304b3d6af5cf6c37f
+Content-Type: application/json
+
+ {
+  "type" : "routine_care",
+   "status": "closed"
+ }
+
+###
+
+# create new failures
+POST http://localhost:5000/api/failures/create
+Content-Type: application/json
+
+ {
+ "type" : "wheel_replacement",
+ "status": "closed",
+ "open_time": "2022-01-28 20:00:00",
+ "close_time": "2022-01-30 20:00:00"
+ }
+###
+

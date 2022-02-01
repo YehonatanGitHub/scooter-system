@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
 import Scooter from '../models/scooter';
-import mongoose from "mongoose";
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
   let { id, location, model, year_manufacture, status } = req.body;
@@ -56,7 +55,7 @@ const readOne = async (req: Request, res: Response, next: NextFunction) => {
 };
 const update = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    let scooter = await Scooter.findOne({ id: req.params.id });
+    let scooter: any = await Scooter.find({ id: req.params.id });
     if (scooter == null) {
       return res.status(404).json({ message: 'Cannot find scooter' })
     } else {
@@ -87,13 +86,16 @@ const update = async (req: Request, res: Response, next: NextFunction) => {
 
 const deleteOne = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    let scooter = await Scooter.findOne({ id: req.params.id });
+    let scooter: any = await Scooter.find({ id: req.params.id });
     console.log(scooter);
-    if (scooter == null) {
+    if (scooter == null || scooter.length == 0) {
       return res.status(404).json({ message: `Cannot find scooter ID ${req.params.id}` })
     } else {
-      Scooter.deleteOne({ id: req.params.id });
-      res.status(201).json({ message: `Scooter ${req.params.id} ID was deleted` })
+      Scooter.findOneAndDelete({ id: req.params.id }, function (err: any) {
+        if (err) console.log(err);
+        console.log("Successful deletion");
+        res.status(201).json(`Scooter ID ${req.params.id} deleted successfully`);
+      });
     }
   } catch (err: any) {
     res.status(500).json({ message: err.message as String });
@@ -104,7 +106,7 @@ export default {
   create,
   readAll,
   update,
-  deleteOne,
   readOne,
-  allActive
+  allActive,
+  deleteOne
 };

@@ -1,0 +1,35 @@
+# get all users
+GET http://localhost:5000/api/user
+###
+# get one user (username)
+GET http://localhost:5000/api/user/testuser
+###
+# delete one user (username)
+DELETE http://localhost:5000/api/user/testuser
+###
+
+# update user (username)
+PATCH http://localhost:5000/api/user/testuser
+Content-Type: application/json
+
+ {
+"first_name": "David12345",
+ "username" : "testuser12"
+ }
+
+###
+
+# create new user
+POST http://localhost:5000/api/user/create
+Content-Type: application/json
+
+ {
+ "username" : "testuser",
+ "password": "1234",
+ "first_name": "David",
+ "last_name": "Cohen",
+ "email": "dc@gmail.com"
+ }
+###
+
+

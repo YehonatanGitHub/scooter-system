@@ -1,13 +1,12 @@
 import 'dotenv/config'
-
 import express from 'express';
+import scootersRoutes from './routes/scooter';
+import userRoutes from './routes/user';
+import parkingRoutes from './routes/parking';
+import failuresRoutes from './routes/failures';
+import mongoose, { ConnectOptions } from "mongoose";
 
 const app = express();
-
-import scootersRoutes from './routes/scooter';
-
-
-import mongoose, { ConnectOptions } from "mongoose";
 
 mongoose.connect(process.env.MONGO_URI!, {
   useNewUrlParser: true
@@ -32,13 +31,9 @@ app.use(express.json());
 
 /** Routes */
 app.use('/api/scooter', scootersRoutes);
-
-// const scootersRoutes = require('./routes/scooters.routes')
-// app.use('/scooters', scootersRoutes);
-
-
-
-
+app.use('/api/user', userRoutes);
+app.use('/api/parking', parkingRoutes);
+app.use('/api/failures', failuresRoutes);
 
 app.listen(5000, () => console.log('Server running on port 5000'));
 
