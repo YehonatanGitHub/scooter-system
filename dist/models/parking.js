@@ -20,11 +20,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
-const ScooterSchema = new mongoose_1.Schema({
-    id: { type: String, required: true, unique: true },
+const ParkingSchema = new mongoose_1.Schema({
+    address: { type: String, required: true, unique: true },
+    number_parking: { type: Number, required: true },
     location: { type: Object, required: true },
-    model: { type: String, required: true },
-    year_manufacture: { type: Number, required: true },
-    status: { type: String, enum: ['active', 'broken', 'handled', 'charged'], required: true }
 });
-exports.default = mongoose_1.default.model('Scooter', ScooterSchema);
+exports.default = mongoose_1.default.model('Parking', ParkingSchema);

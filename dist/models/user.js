@@ -20,11 +20,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
-const ScooterSchema = new mongoose_1.Schema({
-    id: { type: String, required: true, unique: true },
-    location: { type: Object, required: true },
-    model: { type: String, required: true },
-    year_manufacture: { type: Number, required: true },
-    status: { type: String, enum: ['active', 'broken', 'handled', 'charged'], required: true }
+// import bcrypt from 'bcrypt';
+// UserSchema.pre('save', function (next) {
+//   // https://www.youtube.com/watch?v=m_8rwKsYmnY
+// })
+const UserSchema = new mongoose_1.Schema({
+    username: { type: String, required: true, unique: true },
+    password: { type: String, required: true, unique: true },
+    first_name: { type: String },
+    last_name: { type: String },
+    email: { type: String, required: true, unique: true },
 });
-exports.default = mongoose_1.default.model('Scooter', ScooterSchema);
+exports.default = mongoose_1.default.model('User', UserSchema);
